@@ -12,6 +12,7 @@ export default function Home() {
     const [loading, setloading] = useState(true);
     const [coldstart, setcoldstart] = useState(true);
     const [result, setResult] = useState("");
+    const [api, setapi] = useState("1");
 
     useEffect(() => {
         setTimeout(() => {
@@ -40,7 +41,7 @@ export default function Home() {
 
     const handleCopy = () => {
         if (!result) {
-            alert("Wait for code to be generated.");
+            alert("Wait for response to be generated.");
             return;
         }
         navigator.clipboard
@@ -89,7 +90,11 @@ export default function Home() {
         setloading(true);
         setResult(null);
 
-        let p = "<|user|>\n" + prompt + "</s>\n<|assistant|>";
+        let p = "### Instruction:\n" + prompt + "\n\n### Response:\n";
+        if (api != "1") {
+            p = "<|user|>\n" + prompt + "</s>\n<|assistant|>";
+        }
+        console.log(p, api);
         setparray((prevArray) => [...prevArray, prompt]);
         setprompt("");
 
@@ -97,7 +102,7 @@ export default function Home() {
             const res = await fetch("/api/predict", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ prompt: p }),
+                body: JSON.stringify({ prompts: p, api: api }),
             });
             const obj = await res.json();
             setResult(" " + obj.response);
@@ -119,7 +124,9 @@ export default function Home() {
                     id="font1"
                     className="text-5xl landing  w-full font-mono font-extrabold text-center md:text-6xl transition-all duration-[1.3s] relative -top-10 opacity-10"
                 >
-                    Generate <span className=" linear-wipe">Python</span> Code
+                    Generate{" "}
+                    <span className=" linear-wipe">Medical Querry</span>{" "}
+                    Responses
                 </div>
                 <div
                     id="font2"
@@ -149,7 +156,7 @@ export default function Home() {
                         disabled={loading}
                         className="z-10 hover:cursor-pointer hover:border hover:border-white hover:scale-105 transition-transform duration-300 bg-gradient-to-tr from-emerald-600 via-emerald-400 text-black to-cyan-300 text-[10px] font-bold p-3 absolute font-stretch-100% bottom-6 right-6 rounded-sm flex items-center justify-center "
                     >
-                        Generate Code
+                        Generate Response
                     </button>
                 </form>
             </div>
@@ -160,7 +167,7 @@ export default function Home() {
             >
                 <img
                     src="./logo_text2.png"
-                    width={"180px"}
+                    width={"70px"}
                     className=" opacity-100"
                 ></img>
             </div>
@@ -215,9 +222,25 @@ export default function Home() {
                                 disabled={loading}
                                 className="z-10 hover:cursor-pointer disabled:cursor-disabled hover:border hover:border-white hover:scale-105 transition-transform duration-300 bg-gradient-to-tr from-emerald-600 via-emerald-400 text-black to-cyan-300 text-[10px] font-bold p-3 absolute font-stretch-100% bottom-6 right-6 rounded-sm flex items-center justify-center "
                             >
-                                Generate Code
+                                Generate Response
                             </button>
                             <div className="w-full -z-10  opacity-25 h-full absolute top-0 left-0 bg-lines"></div>
+                            {/* <label htmlFor="fruit"></label> */}
+                            <select
+                                id="fruit"
+                                className="text-sm  text-emerald-300"
+                                value={api}
+                                onChange={(e) => setapi(e.target.value)}
+                                style={{
+                                    position: "fixed",
+                                    top: "-25px",
+                                    right: "10px",
+                                }}
+                            >
+                                <option value="1">Gemma-3</option>
+                                <option value="2">LLama</option>
+                                <option value="3">Phi-series</option>
+                            </select>
                         </form>
                     </div>
                 </div>
@@ -252,7 +275,7 @@ export default function Home() {
                                             src={"./logo1.png"}
                                         ></img>
                                         <span className="font-extralight font-mono text-[8px]">
-                                            Generating code...
+                                            Generating response...
                                         </span>
                                         {coldstart && (
                                             <span className="font-extralight font-mono text-[11px] text-white p-2">
@@ -266,7 +289,7 @@ export default function Home() {
                             )}
 
                             {!loading && (
-                                <div className="w-full h-full overflow-y-scroll  bg-black rounded-3xl">
+                                <div className="overflow-wrap w-full h-full overflow-y-scroll text-slate-400  bg-black rounded-3xl">
                                     <Typewriter text={result} />
                                 </div>
                             )}
