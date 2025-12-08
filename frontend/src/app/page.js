@@ -132,7 +132,7 @@ export default function Home() {
                     id="font2"
                     className="text-[13px] landing my-4 w-full font-mono font-light  text-center md:my-8 md:text-[17px] text-gray-400 transition-all duration-[1.3s] relative -top-10 opacity-10"
                 >
-                    Describe your function or script you want to be written.
+                    Describe your querries related to medical topics.
                 </div>
 
                 <form
@@ -238,7 +238,7 @@ export default function Home() {
                                 }}
                             >
                                 <option value="1">Gemma-3</option>
-                                <option value="2">LLama</option>
+                                <option value="2">TinyLLama</option>
                                 <option value="3">Phi-series</option>
                             </select>
                         </form>
