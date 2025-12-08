@@ -1,0 +1,9 @@
+pandas
+numpy
+ipykernel
+peft
+transformers
+torch
+accelerate
+bitsandbytes
+trl
