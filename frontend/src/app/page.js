@@ -124,15 +124,14 @@ export default function Home() {
                     id="font1"
                     className="text-5xl landing  w-full font-mono font-extrabold text-center md:text-6xl transition-all duration-[1.3s] relative -top-10 opacity-10"
                 >
-                    Generate{" "}
-                    <span className=" linear-wipe">Medical Querry</span>{" "}
+                    Generate <span className=" linear-wipe">Medical Query</span>{" "}
                     Responses
                 </div>
                 <div
                     id="font2"
                     className="text-[13px] landing my-4 w-full font-mono font-light  text-center md:my-8 md:text-[17px] text-gray-400 transition-all duration-[1.3s] relative -top-10 opacity-10"
                 >
-                    Describe your querries related to medical topics.
+                    Describe your queries related to medical topics.
                 </div>
 
                 <form
